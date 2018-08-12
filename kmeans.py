@@ -1,6 +1,5 @@
 import numpy as np
 
-
 def init_clusters(k):
     clusters = []
     for i in range(0, k):
@@ -8,6 +7,12 @@ def init_clusters(k):
 
     return clusters
 
+
+np.random.seed(12345)
+
+
+def euclidean_dist(A, B):
+    return np.linalg.norm(A-B)
 
 def k_means(data, k, dist_fun):
     """
@@ -24,20 +29,17 @@ def k_means(data, k, dist_fun):
     """
     centroids = []
     random_permutation = np.random.permutation(len(data))
+
     for i in range(0, k):
         r_idx = random_permutation[i]
         centroids.append(r_idx)
 
     result = np.zeros(len(data), dtype=int)
-
     previous_centroids = centroids[:]
-
     count = 0
-
     to_stop = 0
 
     while True:
-        #print("in iteration number %d of k means" % count)
         count += 1
         clusters = init_clusters(k)
         for i in range(0, len(data)):
@@ -54,7 +56,6 @@ def k_means(data, k, dist_fun):
             result[i] = selected_centroid
             clusters[selected_centroid].append(i)
 
-        #print("initialized centroids")
         if to_stop >= 2:
             break
 
@@ -79,8 +80,6 @@ def k_means(data, k, dist_fun):
                     min_sum = row_sum
 
             centroids[cluster_idx] = new_centroid
-
-        #print("updated centroids")
 
         if centroids == previous_centroids:
             to_stop += 1
