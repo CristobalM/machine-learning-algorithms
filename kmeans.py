@@ -24,12 +24,8 @@ def k_means(data, k, dist_fun):
     """
     centroids = []
     random_permutation = np.random.permutation(len(data))
-    shift = 0
     for i in range(0, k):
         r_idx = random_permutation[i]
-        while len(data[r_idx]) <= 5:
-            shift += 1
-            r_idx = random_permutation[(i + shift) % len(data)]
         centroids.append(r_idx)
 
     result = np.zeros(len(data), dtype=int)
